@@ -17,6 +17,9 @@ export default function Home() {
       <main className={`${styles.main} ${inter.className}`}>
         <h1>Next Auth</h1>
         <button>
+          <Link href="/dashbord">Dashbord</Link>
+        </button>
+        <button>
           <Link href="/signup">Sign Up</Link>
         </button>
         <button>
