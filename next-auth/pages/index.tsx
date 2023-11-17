@@ -2,10 +2,12 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const { status } = useSession();
+
   const logOutHandler = () => {
     signOut();
   };
@@ -19,16 +21,25 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <h1>Next Auth</h1>
-        <button>
-          <Link href="/dashbord">Dashbord</Link>
-        </button>
-        <button>
-          <Link href="/signup">Sign Up</Link>
-        </button>
-        <button>
-          <Link href="/signin">Sign In</Link>
-        </button>
-        <button onClick={logOutHandler}>Log Out</button>
+        {status === "authenticated" ? (
+          <>
+            <button>
+              <Link href="/dashbord">Dashbord</Link>
+            </button>
+            <button onClick={logOutHandler}>Log Out</button>
+          </>
+        ) : null}
+
+        {status === "unauthenticated" ? (
+          <>
+            <button>
+              <Link href="/signup">Sign Up</Link>
+            </button>
+            <button>
+              <Link href="/signin">Sign In</Link>
+            </button>
+          </>
+        ) : null}
       </main>
     </>
   );
